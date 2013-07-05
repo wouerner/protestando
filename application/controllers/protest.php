@@ -20,6 +20,7 @@ class Protest extends CI_Controller {
 
     public function __construct(){
         parent::__construct(); 
+		$this->load->library('ion_auth');
         $this->load->helper('url');
         $this->load->model('Protest_model');
     }
@@ -34,6 +35,8 @@ class Protest extends CI_Controller {
         if(!$this->input->post()){
             $this->template->load('template', 'protest/create');
         }else{
+            $user = $this->ion_auth->user()->row();
+            $this->Protest_model->creator = $user->id;
             $this->Protest_model->name = $this->input->post('name');
             $this->Protest_model->description = $this->input->post('desc');
             $this->Protest_model->local = $this->input->post('local');

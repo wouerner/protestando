@@ -1,13 +1,10 @@
 <?php
-class Protest_model extends CI_Model {
+class Protestant_model extends CI_Model {
 
-    private $table = 'protests';
+    private $table = 'protestants';
 
-    public $id   ='';
-    public $name ='';
-    public $local='';
-    public $image='';
-    public $description='';
+    public $userId   ='';
+    public $protestId ='';
 
     function __construct()
     {

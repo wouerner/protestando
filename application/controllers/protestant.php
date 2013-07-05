@@ -21,41 +21,41 @@ class Protestant extends CI_Controller {
     public function __construct(){
         parent::__construct(); 
         $this->load->helper('url');
-        $this->load->model('Protest_model');
+        $this->load->model('Protestant_model');
     }
 
 	public function index()
 	{
-        $data['protests'] = $this->Protest_model->all();
-        $this->template->load('template', 'protest/index',$data);
+        $data['protestants'] = $this->Protestant_model->all();
+        $this->template->load('template', 'protestant/index',$data);
 	}
 	public function create()
 	{
         if(!$this->input->post()){
-            $this->template->load('template', 'protest/create');
+            $this->template->load('template', 'protestant/create');
         }else{
             $this->Protest_model->name = $this->input->post('name');
             $this->Protest_model->description = $this->input->post('desc');
             $this->Protest_model->local = $this->input->post('local');
             $this->Protest_model->image = $this->input->post('image');
             $this->Protest_model->insert();
-            redirect('/protest');
+            redirect('/protestant');
         }
 	}
 
 	public function show()
 	{
         $this->Protest_model->id = $this->input->get('id');
-        $data['protest'] = $this->Protest_model->show();
-        $this->template->load('template', 'protest/show',$data);
+        $data['protestant'] = $this->Protest_model->show();
+        $this->template->load('template', 'protestant/show',$data);
 	}
 
 	public function edit()
 	{
         if(!$this->input->post()){
             $this->Protest_model->id = $this->input->get('id');
-            $data['protest'] = $this->Protest_model->show();
-            $this->template->load('template', 'protest/edit',$data);
+            $data['protestant'] = $this->Protest_model->show();
+            $this->template->load('template', 'protestant/edit',$data);
         }else{
             $this->Protest_model->id = $this->input->get('id');
             $this->Protest_model->name = $this->input->post('name');
@@ -63,7 +63,7 @@ class Protestant extends CI_Controller {
             $this->Protest_model->local = $this->input->post('local');
             $this->Protest_model->image = $this->input->post('image');
             $this->Protest_model->update();
-            redirect('/protest');
+            redirect('/protestant');
         }
 	}
 

@@ -8,6 +8,7 @@ class Protest_model extends CI_Model {
     public $local='';
     public $image='';
     public $description='';
+    public $creator='';
 
     function __construct()
     {
@@ -27,17 +28,32 @@ class Protest_model extends CI_Model {
 
     function all()
     {
-        $query = $this->db->get($this->table);
+        //$query = $this->db->get($this->table);
+        $query = $this->db
+            ->select('a.id AS id, a.name AS name, a.local AS local, a.description AS description,
+                u.id AS userId, u.username AS username')
+            ->from($this->table.' AS a')
+            ->join('users AS u', 'u.id = a.creator')
+            ->get()
+            ;
         return $query->result();
     }
 
     function show()
     {
         $query = $this->db
-            ->where('id',(int) $this->id,1)
-            ->get($this->table)
+            ->select('a.id AS id, a.name AS name, a.local AS local, a.description AS description,
+                u.id AS userId, u.username AS username')
+            ->from($this->table.' AS a')
+            ->join('users AS u', 'u.id = a.creator')
+            ->where('a.id',(int) $this->id,1)
+            ->get()
             ;
+        //$query->db->join('users', 'users.id ='.$this->table.'.id');
+        //$query->get($this->table);
+        
         $result = $query->result();
+        //print_r($result);
         return $result[0];
     }
 }

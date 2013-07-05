@@ -6,14 +6,14 @@
         <th>local</th>
         <th>imagem</th>
     </thead>
-<?php foreach($protests as $protest): ?>
+<?php foreach($protestants as $protestant): ?>
 <tr>
     <td>100</td>
-    <td><a href="/protest/show?id=<?php echo $protest->id ?>"><?php echo $protest->name; ?></a></td>
-    <td><?php echo $protest->description; ?> </td>
-    <td><?php echo $protest->local; ?> </td>
-    <td><?php echo $protest->image; ?> </td>
-    <td><a href="/protest/edit?id=<?php echo $protest->id ?>">Editar</a></td>
+    <td><a href="/protestant/show?id=<?php echo $protestant->id ?>"><?php echo $protestant->name; ?></a></td>
+    <td><?php echo $protestant->description; ?> </td>
+    <td><?php echo $protestant->local; ?> </td>
+    <td><?php echo $protestant->image; ?> </td>
+    <td><a href="/protestant/edit?id=<?php echo $protestant->id ?>">Editar</a></td>
 </tr>
 <?php endforeach;?>
 </table>
