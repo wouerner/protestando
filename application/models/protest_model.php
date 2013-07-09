@@ -32,11 +32,21 @@ class Protest_model extends CI_Model {
         $query = $this->db
             ->select('a.id AS id, a.name AS name, a.local AS local, a.description AS description,
                 u.id AS userId, u.username AS username')
-            ->from($this->table.' AS a')
+            //->from($this->table.' AS a')
             ->join('users AS u', 'u.id = a.creator')
-            ->get()
+            ->get($this->table.' AS a','Protest_model')
             ;
         return $query->result();
+    }
+
+    function protestants()
+    {
+        $query = $this->db
+            ->select('count(*) as total')
+            ->where('protestId',(int) $this->id,1)
+            ->get('protestants','Protestants_model');
+        return $query->result()[0];
+
     }
 
     function show()

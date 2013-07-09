@@ -22,10 +22,13 @@ class Protestant_model extends CI_Model {
         $this->db->update($this->table, $this);
     }
 
-    function all()
+    function allProtestants()
     {
-        $query = $this->db->get($this->table);
-        return $query->result();
+        $query = $this->db
+            ->select('count(*) as total')
+            ->where('protestId',(int) $this->protestId,1)
+            ->get($this->table);
+        return $query->result()[0];
     }
 
     function show()

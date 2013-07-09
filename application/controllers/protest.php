@@ -23,6 +23,7 @@ class Protest extends CI_Controller {
 		$this->load->library('ion_auth');
         $this->load->helper('url');
         $this->load->model('Protest_model');
+        $this->load->model('Protestant_model');
     }
 
 	public function index()
@@ -49,6 +50,9 @@ class Protest extends CI_Controller {
 	public function show()
 	{
         $this->Protest_model->id = $this->input->get('id');
+        $this->Protestant_model->protestId = $this->Protest_model->id;
+
+        $data['total'] = $this->Protestant_model->allProtestants();
         $data['protest'] = $this->Protest_model->show();
         $this->template->load('template', 'protest/show',$data);
 	}

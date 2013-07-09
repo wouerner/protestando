@@ -20,6 +20,7 @@ class Protestant extends CI_Controller {
 
     public function __construct(){
         parent::__construct(); 
+		$this->load->library('ion_auth');
         $this->load->helper('url');
         $this->load->model('Protestant_model');
     }
@@ -31,15 +32,12 @@ class Protestant extends CI_Controller {
 	}
 	public function create()
 	{
-        if(!$this->input->post()){
-            $this->template->load('template', 'protestant/create');
-        }else{
-            $this->Protest_model->name = $this->input->post('name');
-            $this->Protest_model->description = $this->input->post('desc');
-            $this->Protest_model->local = $this->input->post('local');
-            $this->Protest_model->image = $this->input->post('image');
-            $this->Protest_model->insert();
-            redirect('/protestant');
+        if($this->input->post()){
+            $user = $this->ion_auth->user()->row();
+            $this->Protestant_model->userId = $user->id;
+            $this->Protestant_model->protestId = $this->input->post('protestId');
+            $this->Protestant_model->insert();
+            redirect('/protest');
         }
 	}
 
