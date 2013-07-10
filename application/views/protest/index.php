@@ -10,8 +10,15 @@
     </thead>
 <?php foreach($protests as $protest): ?>
 <tr>
-    <td><a class="" href="#"></a></td>
-    <td><a href="/protest/show?id=<?php echo $protest->id ?>"><?php echo $protest->name; ?></a></td>
+    <td>
+        <?php echo $protest->protestantsCount()->total; ?>
+    </td>
+    <td><a href="/protest/show?id=<?php echo $protest->id ?>">
+        <?php if ($protest->isProtestant()):?>
+            <i class="icon-flag"></i>
+        <?php endif; ?>
+        
+        <?php echo $protest->name; ?></a></td>
     <td><a href="/auth/show?id=<?php echo $protest->userId ?>"><?php echo $protest->username ?></a></td>
     <td><?php echo $protest->local; ?> </td>
         <?php if ($this->ion_auth->is_admin()):?>
@@ -20,3 +27,5 @@
 </tr>
 <?php endforeach;?>
 </table>
+
+    <?php //echo $this->pagination->create_links()?>

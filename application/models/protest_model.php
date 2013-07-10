@@ -32,27 +32,51 @@ class Protest_model extends CI_Model {
         $query = $this->db
             ->select('a.id AS id, a.name AS name, a.local AS local, a.description AS description,
                 u.id AS userId, u.username AS username')
-            //->from($this->table.' AS a')
+            ->from($this->table.' AS a')
             ->join('users AS u', 'u.id = a.creator')
-            ->get($this->table.' AS a','Protest_model')
+            ->get()
             ;
-        return $query->result();
+        return $query->result('Protest_model');
     }
 
     function protestants()
     {
         $query = $this->db
+            ->select('*')
+            ->join('users AS u', 'u.id = a.userId')
+            ->where('a.protestId', (int) $this->id, 1)
+            ->get('protestants AS a');
+        return $query->result('ion_auth');
+
+    }
+
+    function protestantsCount()
+    {
+        $query = $this->db
             ->select('count(*) as total')
             ->where('protestId',(int) $this->id,1)
-            ->get('protestants','Protestants_model');
+            ->get('protestants');
         return $query->result()[0];
+
+    }
+
+    function isProtestant()
+    {
+        $user = $this->ion_auth->user()->row();
+        $query = $this->db
+            ->select('*')
+            ->where('userId',(int) $user->id)
+            ->where('protestId', (int) $this->id)
+            ->get('protestants',1);
+
+        return  (count($query->result()) > 0)? true  : false ;
 
     }
 
     function show()
     {
         $query = $this->db
-            ->select('a.id AS id, a.name AS name, a.local AS local, a.description AS description,
+            ->select('a.id AS id, a.name AS name, a.local AS local, a.description AS description, a.creator AS creator,
                 u.id AS userId, u.username AS username')
             ->from($this->table.' AS a')
             ->join('users AS u', 'u.id = a.creator')
@@ -62,7 +86,7 @@ class Protest_model extends CI_Model {
         //$query->db->join('users', 'users.id ='.$this->table.'.id');
         //$query->get($this->table);
         
-        $result = $query->result();
+        $result = $query->result('Protest_model');
         //print_r($result);
         return $result[0];
     }

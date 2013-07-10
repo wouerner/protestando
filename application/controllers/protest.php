@@ -24,11 +24,20 @@ class Protest extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('Protest_model');
         $this->load->model('Protestant_model');
+        $this->load->library('pagination');
     }
 
 	public function index()
 	{
         $data['protests'] = $this->Protest_model->all();
+
+        $config['base_url'] = 'http://protestando.local/protest/page/';
+        $config['total_rows'] = count($data['protests']);
+        $config['per_page'] = 2;
+
+        $this->pagination->initialize($config);
+
+
         $this->template->load('template', 'protest/index',$data);
 	}
 	public function create()
@@ -54,6 +63,7 @@ class Protest extends CI_Controller {
 
         $data['total'] = $this->Protestant_model->allProtestants();
         $data['protest'] = $this->Protest_model->show();
+        $data['user'] =  $this->ion_auth->user()->row();
         $this->template->load('template', 'protest/show',$data);
 	}
 
