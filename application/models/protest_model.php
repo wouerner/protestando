@@ -56,21 +56,27 @@ class Protest_model extends CI_Model {
             ->select('count(*) as total')
             ->where('protestId',(int) $this->id,1)
             ->get('protestants');
-        return $query->result()[0];
+
+        $result = $query->row();
+
+        return $result;
 
     }
 
     function isProtestant()
     {
         $user = $this->ion_auth->user()->row();
-        $query = $this->db
-            ->select('*')
-            ->where('userId',(int) $user->id)
-            ->where('protestId', (int) $this->id)
-            ->get('protestants',1);
+        $query='';
 
-        return  (count($query->result()) > 0)? true  : false ;
-
+        if(!empty($user)){
+            $query = $this->db
+                ->select('*')
+                ->where('userId',(int) $user->id)
+                ->where('protestId', (int) $this->id)
+                ->get('protestants',1);
+            return  (count($query->result()) > 0)? true  : false ;
+        }
+        return false;
     }
 
     function show()

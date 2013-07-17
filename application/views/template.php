@@ -12,7 +12,9 @@
             <div class="navbar-inner">
                 <ul class="nav">
                     <li class="active"><a href="http://protestando.org"><i class="icon-flag icon-white"></i> Protestos</a></li>
-                    <li class="active"><a href="/protest/create"><i class="icon-plus "></i>Criar Protesto</a></li>
+                    <?php if($this->ion_auth->logged_in()): ?>
+                        <li class="active"><a href="/protest/create"><i class="icon-plus "></i>Criar Protesto</a></li>
+                    <?php endif; ?>
                     <li><a href="/auth/show_users"><i class="icon-user icon-white"></i> Protestantes</a></li>
                 </ul>
                 <ul class="nav pull-right">

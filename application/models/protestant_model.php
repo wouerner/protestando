@@ -28,7 +28,7 @@ class Protestant_model extends CI_Model {
             ->select('count(*) as total')
             ->where('protestId',(int) $this->protestId,1)
             ->get($this->table);
-        return $query->result()[0];
+        return $query->row();
     }
 
     function show()

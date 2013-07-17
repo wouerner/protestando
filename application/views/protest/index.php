@@ -17,7 +17,7 @@
         <?php if ($protest->isProtestant()):?>
             <i class="icon-flag"></i>
         <?php endif; ?>
-        
+<?php //var_dump($protest); ?>
         <?php echo $protest->name; ?></a></td>
     <td><a href="/auth/show?id=<?php echo $protest->userId ?>"><?php echo $protest->username ?></a></td>
     <td><?php echo $protest->local; ?> </td>
@@ -27,5 +27,3 @@
 </tr>
 <?php endforeach;?>
 </table>
-
-    <?php //echo $this->pagination->create_links()?>

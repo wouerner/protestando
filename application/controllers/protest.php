@@ -24,37 +24,33 @@ class Protest extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('Protest_model');
         $this->load->model('Protestant_model');
-        $this->load->library('pagination');
     }
 
 	public function index()
 	{
         $data['protests'] = $this->Protest_model->all();
-
-        $config['base_url'] = 'http://protestando.local/protest/page/';
-        $config['total_rows'] = count($data['protests']);
-        $config['per_page'] = 2;
-
-        $this->pagination->initialize($config);
-
-
         $this->template->load('template', 'protest/index',$data);
 	}
 	public function create()
 	{
-        if(!$this->input->post()){
-            $this->template->load('template', 'protest/create');
+        if($this->ion_auth->logged_in()){
+
+                if(!$this->input->post()){
+                    $this->template->load('template', 'protest/create');
+                }else{
+                    $user = $this->ion_auth->user()->row();
+                    $this->Protest_model->creator = $user->id;
+                    $this->Protest_model->name = $this->input->post('name');
+                    $this->Protest_model->description = $this->input->post('desc');
+                    $this->Protest_model->local = $this->input->post('local');
+                    $this->Protest_model->image = $this->input->post('image');
+                    $this->Protest_model->insert();
+                    redirect('/protest');
+                }
         }else{
-            $user = $this->ion_auth->user()->row();
-            $this->Protest_model->creator = $user->id;
-            $this->Protest_model->name = $this->input->post('name');
-            $this->Protest_model->description = $this->input->post('desc');
-            $this->Protest_model->local = $this->input->post('local');
-            $this->Protest_model->image = $this->input->post('image');
-            $this->Protest_model->insert();
-            redirect('/protest');
+                redirect('/protest');
         }
-	}
+    }
 
 	public function show()
 	{
